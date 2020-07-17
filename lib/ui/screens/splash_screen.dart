@@ -2,11 +2,85 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutteruitask/constants/colors.dart';
+import 'package:flutteruitask/constants/fonts.dart';
+import 'package:flutteruitask/models/juice_data_model.dart';
 import 'package:flutteruitask/ui/screens/juice_detail.dart';
 import 'package:flutteruitask/widgets/fruit_icons.dart';
 import 'package:flutteruitask/widgets/juice_list.dart';
+import 'package:flutteruitask/widgets/text_field.dart';
+import 'package:provider/provider.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
+
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  Juice juice = Juice();
+  ///
+  /// Bottom Sheet
+  /// Add new Juice
+  ///
+  Widget buildBottomSheet( BuildContext context){
+    return Container(
+      decoration: BoxDecoration(
+          color: appBarColor,
+          borderRadius: BorderRadius.only(topLeft:Radius.circular(30),topRight:Radius.circular(30) )
+      ),
+      padding: EdgeInsets.all(10),
+      height: MediaQuery.of(context).size.height * 0.9,
+      child: Consumer<JuiceDataModel>(
+        builder: (context,model,child){
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Center(child: Text("Add Juice",style: fontSizeTitle,), ),
+              SizedBox(height: 20,),
+              Text("Juice Name",style: fontSize16,),
+              SizedBox(height: 5,),
+              CustomTextField(onChange: (value){
+                juice.title=value;
+              },
+              ),
+              SizedBox(height: 20,),
+              Text("Juice Description",style: fontSize16,),
+              SizedBox(height: 5,),
+              CustomTextField(
+                onChange: (value){
+                  model.addJuice.description=value;
+                },
+              ),
+              SizedBox(height: 20,),
+              Text("Juice Price",style: fontSize16,),
+              SizedBox(height: 5,),
+              CustomTextField(
+                onChange: (value){
+                  model.addJuice.price=value;
+                },
+              ),
+              SizedBox(height: 40),
+              Center(
+                child: GestureDetector(
+                  onTap: () => model.addNewJuice(),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.all(Radius.circular(20))
+                    ),
+                    height: MediaQuery.of(context).size.height * 0.1,
+                    child: Center(child: Text("Save",style: fontSizeTitle,)),
+                  ),
+                ),
+              )
+            ],
+          );
+        },
+      )
+      );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -16,6 +90,7 @@ class SplashScreen extends StatelessWidget {
       ],
     );
   }
+
   ///
   /// Custom AppBar (Search Bar + Foods Cards)
   ///
@@ -56,6 +131,7 @@ class SplashScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+
                   ///
                   /// More button
                   ///
@@ -67,7 +143,12 @@ class SplashScreen extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       color: cardColor,
                     ),
-                    child: Icon(Icons.more_vert,color: iconColor,),
+                    child: FlatButton(
+                      onPressed: (){
+                        showModalBottomSheet(context: context,isScrollControlled: true, builder: buildBottomSheet);
+                      },
+                      child: Icon(Icons.more_vert,color: iconColor,),
+                    ),
                   ),
                 ],
               ),
@@ -97,32 +178,39 @@ class SplashScreen extends StatelessWidget {
       ],
     );
   }
+
   ///
   /// Scrolable juice list
   ///
   Widget scrolableBody(BuildContext context) {
+
+    final model  = Provider.of<JuiceDataModel>(context);
+
     return Padding(
       padding: const EdgeInsets.only(top: 280.0),
       child: Container(
           padding: EdgeInsets.only(top: 0.0),
           child: ListView.builder(
             physics: BouncingScrollPhysics(),
-              itemCount: juiceDetails.length,
+              ///
+              /// The itemCount parameter decides how many times the callback function in itemBuilder will be called.
+              ///
+              itemCount: model.juicesList.length,
               itemBuilder: (BuildContext context, int index){
                 return GestureDetector(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context) =>JuiceDetail(
-                      juiceTitle: juiceDetails[index].title,
-                      juiceDescription: juiceDetails[index].description,
-                      juicePrice: juiceDetails[index].price,
-                      juiceImage: juiceDetails[index].image,
+                      juiceTitle:  model.juicesList[index].title,
+                      juiceDescription:  model.juicesList[index].description,
+                      juicePrice:  model.juicesList[index].price,
+                      juiceImage:  model.juicesList[index].image,
                     )));
                   },
                   child: Column(
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Expanded(child: JuiceList(juiceDetails[index].title, juiceDetails[index].description, juiceDetails[index].price, juiceDetails[index].image)),
+                          Expanded(child: JuiceList( model.juicesList[index].title,  model.juicesList[index].description,  model.juicesList[index].price,  model.juicesList[index].image, model.juicesList[index].indexNo),),
                           Container(
                             height:MediaQuery.of(context).size.height * 0.2,
                             width: MediaQuery.of(context).size.width * 0.4,
@@ -137,11 +225,18 @@ class SplashScreen extends StatelessWidget {
                               children: <Widget>[
                                 ClipRRect(
                                     borderRadius: BorderRadius.circular(20),
-                                    child: Image.asset("images/juiceimage.png",
+                                    child: index<=1?Image.asset("images/juiceimage.png",
                                       height:MediaQuery.of(context).size.height * 0.18,
                                       width: MediaQuery.of(context).size.width * 0.35,
                                       fit: BoxFit.fill,
-                                    )
+                                    ):ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child:Image.asset("images/juiceimage.png",
+                                          height:MediaQuery.of(context).size.height * 0.18,
+                                          width: MediaQuery.of(context).size.width * 0.35,
+                                          fit: BoxFit.fill,
+                                        )
+                                    ),
                                 ),
                               ],
                             ),
@@ -157,8 +252,4 @@ class SplashScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-
 

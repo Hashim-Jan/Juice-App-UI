@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutteruitask/models/juice_data_model.dart';
+import 'package:provider/provider.dart';
 import 'ui/screens/splash_screen.dart';
-void main()=>runApp(MyApp());
+
+void main()=>runApp(MultiProvider(
+    providers:[
+    ChangeNotifierProvider(create: (context)=>JuiceDataModel(),
+
+    )
+],
+  child: MyApp(),),);
 
 class MyApp extends StatelessWidget {
   @override

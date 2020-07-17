@@ -22,7 +22,6 @@ class FruitIcons extends StatelessWidget {
           ),
           SizedBox(height: 10,),
           Text(juiceName,style: TextStyle(color:iconColor,fontWeight: FontWeight.bold),)
-
         ],
       ),
     );

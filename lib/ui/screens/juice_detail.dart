@@ -2,9 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutteruitask/constants/colors.dart';
 
-class JuiceDetail extends StatelessWidget {
+class JuiceDetail extends StatefulWidget {
+
   final juiceTitle,juiceDescription,juicePrice,juiceImage;
   JuiceDetail({this.juiceTitle,this.juiceDescription,this.juicePrice,this.juiceImage});
+
+  @override
+  _JuiceDetailState createState() => _JuiceDetailState();
+}
+
+class _JuiceDetailState extends State<JuiceDetail> {
+  bool favoriteIcon=false;
   @override
   Widget build(BuildContext context) {
     ///
@@ -56,23 +64,36 @@ class JuiceDetail extends StatelessWidget {
                             width: MediaQuery.of(context).size.width * 0.12,
                             child: Icon(Icons.more_vert,color: Colors.white,),
                           ),
-                          Container(
-                            margin: EdgeInsets.only(right: 20),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.pink.withOpacity(0.4),
-                                blurRadius: 2.0,
-                                offset: Offset(0,8),
-                                spreadRadius: 2.0,
-                              )
-                            ]
+                          GestureDetector(
+                            onTap: (){
+                              setState(() {
+                                if(favoriteIcon==false)
+                                  favoriteIcon=true;
+                                else
+                                  favoriteIcon=false;
+                              });
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(right: 20),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.pink.withOpacity(0.4),
+                                  blurRadius: 2.0,
+                                  offset: Offset(0,8),
+                                  spreadRadius: 2.0,
+                                )
+                              ]
+                              ),
+                              height: MediaQuery.of(context).size.height * 0.07,
+                              width: MediaQuery.of(context).size.width * 0.12,
+                              child: Center(
+                                child: favoriteIcon == true ? Icon(Icons.favorite,color: Colors.pinkAccent,size: 30,) :
+                                Icon(Icons.favorite_border,color: Colors.pinkAccent,size: 30,),
+                              ),
                             ),
-                            height: MediaQuery.of(context).size.height * 0.07,
-                            width: MediaQuery.of(context).size.width * 0.12,
-                            child: Icon(Icons.favorite,color: Colors.pinkAccent,size: 30,),
                           ),
                         ],
                       )
@@ -87,7 +108,7 @@ class JuiceDetail extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('$juiceTitle',style: TextStyle(fontSize: 36,fontWeight: FontWeight.bold),),
+                  Text('${widget.juiceTitle}',style: TextStyle(fontSize: 36,fontWeight: FontWeight.bold),),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Text("Lemonade Juice",style: TextStyle(fontSize: 24)),
@@ -98,7 +119,7 @@ class JuiceDetail extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           Text("\$"),
-                          Text(juicePrice,style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
+                          Text(widget.juicePrice.toString(),style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
                         ],
                       ),
                       Container(
@@ -120,7 +141,7 @@ class JuiceDetail extends StatelessWidget {
                     ],
                   ),
                   Text("About Product",style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
-                  Text("$juiceDescription"),
+                  Text("${widget.juiceDescription}"),
                 ],
               ),
             ),
@@ -128,6 +149,7 @@ class JuiceDetail extends StatelessWidget {
             /// Order button
             ///
             FlatButton(
+              onPressed: (){},
               child: Center(
                 child: Container(
                   decoration: BoxDecoration(
