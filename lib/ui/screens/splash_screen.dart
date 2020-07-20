@@ -203,7 +203,9 @@ class SplashScreen extends StatelessWidget {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Expanded(child: JuiceList( model.juicesList[index].title,  model.juicesList[index].description,  model.juicesList[index].price,  model.juicesList[index].image, model.juicesList[index].indexNo),),
+                          Expanded(child: JuiceList( model.juicesList[index].title,
+                              model.juicesList[index].description,  model.juicesList[index].price,
+                              model.juicesList[index].image, index),),
                           Container(
                             height:MediaQuery.of(context).size.height * 0.2,
                             width: MediaQuery.of(context).size.width * 0.4,

@@ -50,14 +50,14 @@ JuiceList(this.juiceTitle,this.juiceDescription,this.juicePrice,this.juiceImage,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           GestureDetector(
-                              onTap: ()=>Provider.of<JuiceModel>(context,listen: false).decrement(),
+                              onTap: ()=>Provider.of<JuiceModel>(context,listen: false).decrement(itemIndex),
                               child: Icon(Icons.remove,color: iconColor,size: 30)),
                             Consumer<JuiceModel>(
                               builder:(context, model, child){
-                                return Text("${model.incrementDecValue}",style: TextStyle(fontSize: 24,color: Colors.white),);
+                                return Text("${model.juicesList[itemIndex].indexNo}",style: TextStyle(fontSize: 24,color: Colors.white),);
                               },),
                           GestureDetector(
-                              onTap: ()=>Provider.of<JuiceModel>(context,listen: false).increment(),
+                              onTap: ()=>Provider.of<JuiceModel>(context,listen: false).increment(itemIndex),
                               child: Icon(Icons.add,color: iconColor,size: 30,))
                         ],
                       ),
