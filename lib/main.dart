@@ -4,11 +4,11 @@ import 'package:provider/provider.dart';
 import 'ui/screens/splash_screen.dart';
 
 void main()=>runApp(MultiProvider(
-    providers:[
+  providers:[
     ChangeNotifierProvider(create: (context)=>JuiceModel(),
 
     )
-],
+  ],
   child: MyApp(),),);
 
 class MyApp extends StatelessWidget {
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
-          body: SplashScreen()
+            body: SplashScreen()
         ),
       ),
     );
