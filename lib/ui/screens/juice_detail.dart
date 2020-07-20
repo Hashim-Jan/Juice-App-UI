@@ -4,16 +4,9 @@ import 'package:flutteruitask/constants/colors.dart';
 import 'package:flutteruitask/models/juice_data_model.dart';
 import 'package:provider/provider.dart';
 
-class JuiceDetail extends StatefulWidget {
-
+class JuiceDetail extends StatelessWidget {
   final juiceTitle,juiceDescription,juicePrice,juiceImage;
   JuiceDetail({this.juiceTitle,this.juiceDescription,this.juicePrice,this.juiceImage});
-
-  @override
-  _JuiceDetailState createState() => _JuiceDetailState();
-}
-
-class _JuiceDetailState extends State<JuiceDetail> {
   @override
   Widget build(BuildContext context) {
     ///
@@ -116,7 +109,7 @@ class _JuiceDetailState extends State<JuiceDetail> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('${widget.juiceTitle}',style: TextStyle(fontSize: 36,fontWeight: FontWeight.bold),),
+                  Text('${juiceTitle}',style: TextStyle(fontSize: 36,fontWeight: FontWeight.bold),),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Text("Lemonade Juice",style: TextStyle(fontSize: 24)),
@@ -127,7 +120,7 @@ class _JuiceDetailState extends State<JuiceDetail> {
                       Row(
                         children: <Widget>[
                           Text("\$"),
-                          Text(widget.juicePrice.toString(),style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
+                          Text(juicePrice.toString(),style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
                         ],
                       ),
                       Container(
@@ -141,7 +134,7 @@ class _JuiceDetailState extends State<JuiceDetail> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                               GestureDetector(
-                                  onTap: ()=>Provider.of<JuiceModel>(context,listen: false).decrement(),
+//                                  onTap: ()=>Provider.of<JuiceModel>(context,listen: false).decrement(),
                                 child: Icon(Icons.remove,color: iconColor,size: 30)),
                               Consumer<JuiceModel>(
                                 builder: (context,model,child){
@@ -149,7 +142,7 @@ class _JuiceDetailState extends State<JuiceDetail> {
                                 },
                               ),
                               GestureDetector(
-                                  onTap: ()=>Provider.of<JuiceModel>(context,listen: false).increment(),
+//                                  onTap: ()=>Provider.of<JuiceModel>(context,listen: false).increment(),
                                   child: Icon(Icons.add,color: iconColor,size: 30,))
                           ],
                         ),
@@ -157,7 +150,7 @@ class _JuiceDetailState extends State<JuiceDetail> {
                     ],
                   ),
                   Text("About Product",style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
-                  Text("${widget.juiceDescription}"),
+                  Text("${juiceDescription}"),
                 ],
               ),
             ),
