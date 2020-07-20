@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutteruitask/constants/colors.dart';
+import 'package:flutteruitask/models/juice_data_model.dart';
+import 'package:provider/provider.dart';
 
 class JuiceDetail extends StatefulWidget {
 
@@ -12,7 +14,6 @@ class JuiceDetail extends StatefulWidget {
 }
 
 class _JuiceDetailState extends State<JuiceDetail> {
-  bool favoriteIcon=false;
   @override
   Widget build(BuildContext context) {
     ///
@@ -64,36 +65,49 @@ class _JuiceDetailState extends State<JuiceDetail> {
                             width: MediaQuery.of(context).size.width * 0.12,
                             child: Icon(Icons.more_vert,color: Colors.white,),
                           ),
-                          GestureDetector(
-                            onTap: (){
-                              setState(() {
-                                if(favoriteIcon==false)
-                                  favoriteIcon=true;
-                                else
-                                  favoriteIcon=false;
-                              });
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(right: 20),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.pink.withOpacity(0.4),
-                                  blurRadius: 2.0,
-                                  offset: Offset(0,8),
-                                  spreadRadius: 2.0,
-                                )
-                              ]
-                              ),
-                              height: MediaQuery.of(context).size.height * 0.07,
-                              width: MediaQuery.of(context).size.width * 0.12,
-                              child: Center(
-                                child: favoriteIcon == true ? Icon(Icons.favorite,color: Colors.pinkAccent,size: 30,) :
-                                Icon(Icons.favorite_border,color: Colors.pinkAccent,size: 30,),
-                              ),
-                            ),
+                           Consumer<JuiceModel>(
+                            builder: (context,model,child) {
+                              return GestureDetector(
+                                onTap: () => Provider.of<JuiceModel>(context, listen: false).myFavourite(),
+//                              setState(() {
+//                                if(favoriteIcon==false)
+//                                  favoriteIcon=true;
+//                                else
+//                                  favoriteIcon=false;
+//                              });
+                                child: Container(
+                                    margin: EdgeInsets.only(right: 20),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                            10.0),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.pink.withOpacity(0.4),
+                                            blurRadius: 2.0,
+                                            offset: Offset(0, 8),
+                                            spreadRadius: 2.0,
+                                          )
+                                        ]
+                                    ),
+                                    height: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height * 0.07,
+                                    width: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width * 0.12,
+                                    child: Center(
+                                      child: model.favoriteIcon == true ? Icon(
+                                        Icons.favorite,
+                                        color: Colors.pinkAccent, size: 30,) :
+                                      Icon(Icons.favorite_border,
+                                        color: Colors.pinkAccent, size: 30,),
+                                    )
+                                ),
+                              );
+                            }
                           ),
                         ],
                       )

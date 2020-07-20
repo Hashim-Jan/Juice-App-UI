@@ -5,7 +5,7 @@ import 'ui/screens/splash_screen.dart';
 
 void main()=>runApp(MultiProvider(
     providers:[
-    ChangeNotifierProvider(create: (context)=>JuiceDataModel(),
+    ChangeNotifierProvider(create: (context)=>JuiceModel(),
 
     )
 ],
