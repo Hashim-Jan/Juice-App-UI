@@ -90,14 +90,8 @@ class _JuiceDetailState extends State<JuiceDetail> {
                                           )
                                         ]
                                     ),
-                                    height: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .height * 0.07,
-                                    width: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width * 0.12,
+                                    height: MediaQuery.of(context).size.height * 0.07,
+                                    width: MediaQuery.of(context).size.width * 0.12,
                                     child: Center(
                                       child: model.favoriteIcon == true ? Icon(
                                         Icons.favorite,
@@ -146,9 +140,17 @@ class _JuiceDetailState extends State<JuiceDetail> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            Icon(Icons.remove,color: iconColor,size: 30),
-                            Text("1",style: TextStyle(color: iconColor,fontSize: 24),),
-                            Icon(Icons.add,color: iconColor,size: 30,)
+                              GestureDetector(
+                                  onTap: ()=>Provider.of<JuiceModel>(context,listen: false).decrement(),
+                                child: Icon(Icons.remove,color: iconColor,size: 30)),
+                              Consumer<JuiceModel>(
+                                builder: (context,model,child){
+                                  return Text('${model.incrementDecValue}',style: TextStyle(color: iconColor,fontSize: 24),);
+                                },
+                              ),
+                              GestureDetector(
+                                  onTap: ()=>Provider.of<JuiceModel>(context,listen: false).increment(),
+                                  child: Icon(Icons.add,color: iconColor,size: 30,))
                           ],
                         ),
                       )

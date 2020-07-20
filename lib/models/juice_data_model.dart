@@ -28,7 +28,7 @@ class JuiceModel extends ChangeNotifier{
       description: ' Almost every designer awaitos their turn and chance work own big food',
       price: 11.35,
       image: 'images/juiceimage.png',
-      indexNo: 0,
+      indexNo: 1,
     ),
   ];
   ///
