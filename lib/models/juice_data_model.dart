@@ -11,8 +11,7 @@ class Juice{
 
 
 
-class JuiceDataModel extends ChangeNotifier{
-
+class JuiceModel extends ChangeNotifier{
 
   Juice addJuice=Juice();
 
@@ -30,25 +29,46 @@ class JuiceDataModel extends ChangeNotifier{
       price: 11.35,
       image: 'images/juiceimage.png',
       indexNo: 0,
-    )
+    ),
   ];
-
-  void addNewJuice(){
+  ///
+  /// Add new juice to list
+  ///
+  void addNewJuice()
+  {
     juicesList.add(addJuice);
+    notifyListeners();
+    addJuice=Juice();
+
+  }
+  ///
+  /// Favorite
+  ///
+bool favoriteIcon=false;
+  void myFavourite()
+  {
+    if(favoriteIcon==false)
+      favoriteIcon=true;
+    else
+      favoriteIcon=false;
+      notifyListeners();
+  }
+  ///
+  /// increase or decrease juice quantity
+  ///
+  int incrementDecValue=0;
+  void increment()
+  {
+    incrementDecValue++;
     notifyListeners();
   }
 
-int incrementDecValue=0;
-void increment(){
-  incrementDecValue++;
-  notifyListeners();
-}
-
-void decrement(){
-  if(incrementDecValue<=0){
-    incrementDecValue=0;
-  }else
-  incrementDecValue--;
-  notifyListeners();
-}
+  void decrement()
+  {
+    if(incrementDecValue<=0){
+      incrementDecValue=0;
+    }else
+    incrementDecValue--;
+    notifyListeners();
+  }
 }

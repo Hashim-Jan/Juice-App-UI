@@ -10,14 +10,7 @@ import 'package:flutteruitask/widgets/juice_list.dart';
 import 'package:flutteruitask/widgets/text_field.dart';
 import 'package:provider/provider.dart';
 
-class SplashScreen extends StatefulWidget {
-
-  @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  Juice juice = Juice();
+class SplashScreen extends StatelessWidget {
   ///
   /// Bottom Sheet
   /// Add new Juice
@@ -30,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
       padding: EdgeInsets.all(10),
       height: MediaQuery.of(context).size.height * 0.9,
-      child: Consumer<JuiceDataModel>(
+      child: Consumer<JuiceModel>(
         builder: (context,model,child){
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
               Text("Juice Name",style: fontSize16,),
               SizedBox(height: 5,),
               CustomTextField(onChange: (value){
-                juice.title=value;
+                model.addJuice.title=value;
               },
               ),
               SizedBox(height: 20,),
@@ -184,7 +177,7 @@ class _SplashScreenState extends State<SplashScreen> {
   ///
   Widget scrolableBody(BuildContext context) {
 
-    final model  = Provider.of<JuiceDataModel>(context);
+    final model  = Provider.of<JuiceModel>(context);
 
     return Padding(
       padding: const EdgeInsets.only(top: 280.0),
